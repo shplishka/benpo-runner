@@ -65,6 +65,37 @@ html, body {
   width: 100vw;
   z-index: 1;
 }
+.center {
+  text-align: center;
+  border: 3px solid green;
+}
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 20px;
+  text-align: center;
+}
+
+.flex-item-left {
+  background-color: #f1f1f1;
+  padding: 10px;
+  flex: 2%;
+}
+
+.flex-item-right {
+  background-color: green;
+  font-weight: bold;
+  color: white;
+  padding: 10px;
+  flex: 2%;
+}
+
+/* Responsive layout - makes a one column-layout instead of a two-column layout */
+@media (max-width: 800px) {
+  .flex-item-right, .flex-item-left {
+    flex: 10%;
+  }
+}
 
 #offline-resources {
   display: none;

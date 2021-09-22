@@ -773,6 +773,7 @@
             this.playSound(this.soundFx.HIT);
             vibrate(200);
 
+
             this.stop();
             this.crashed = true;
             this.distanceMeter.acheivement = false;
@@ -792,6 +793,12 @@
             if (this.distanceRan > this.highestScore) {
                 this.highestScore = Math.ceil(this.distanceRan);
                 this.distanceMeter.setHighScore(this.highestScore);
+                var name_1 = prompt("What's your name?");
+                let task = {
+                    name: name_1,
+                    status: this.distanceMeter.getActualDistance(Math.ceil(this.distanceRan))
+                  }
+                firestore.collection('tasks').add(task)
             }
 
             // Reset the time clock.

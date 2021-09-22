@@ -18,8 +18,6 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <script src="index.js"></script>
     <link rel="icon" href="assets/favicon.png">
-    
-    
 </head>
 
 <body id="t" class="offline">
@@ -42,7 +40,65 @@
         </div>
         </div>
     </div>
-    
+
+    <h1 class="center">Scoreboard</h1>
+    <div id="tasks" class="center"></div>
+  
+    <script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-firestore.js"></script>
+    <script>
+      // variables
+      const firebaseConfig = {
+          apiKey: "AIzaSyA74MlsGp-nxeuyAGMhnScGniOhI_5t8CE",
+          authDomain: "benpo-5f6ce.firebaseapp.com",
+          databaseURL: "https://benpo-5f6ce-default-rtdb.firebaseio.com/",
+          projectId: "benpo-5f6ce",
+          storageBucket: "benpo-5f6ce.appspot.com", 
+          messagingSenderId: "163691803576",
+          appId: "1:163691803576:web:aa54a6ebd7a7bc39e1554d",
+          measurementId: "G-R1H5NJ5SMX"
+          };
+      
+      firebase.initializeApp(firebaseConfig);
+      const firestore = firebase.firestore();
+      const tasksDOM = document.getElementById('tasks');
+      const taskInputDOM = document.getElementById('taskTitle');
+  
+      // utility functions
+      function cleanData(snapshots) {
+        let data = [];
+        snapshots.forEach(function(doc) {
+          data.push({ id: doc.id, ...doc.data() });
+        })
+        return data.sort((a, b) => parseFloat(b.status) - parseFloat(a.status));
+      }
+
+
+      // dom functions
+      function createTask(task) {
+        const elem = document.createElement('div');
+        elem.setAttribute('id', task.id);
+        elem.setAttribute('class', 'flex-container card card-body p-2 row m-0 flex-row');
+        let taskElem = document.createElement('p');
+        taskElem.setAttribute('class', 'flex-item-left m-0 col-7 p-0 ');
+        taskElem.innerText = task.name
+        elem.append(taskElem);
+        const deleteBtn = document.createElement('p');
+        deleteBtn.setAttribute('class', 'flex-item-right btn btn-danger col-2 text-white');
+        deleteBtn.innerText = task.status;
+        elem.append(deleteBtn);
+        tasksDOM.append(elem);
+      }
+  
+      // firebase functions
+      function fetchTasks() {
+        all_data =  firestore.collection('tasks').get()
+        .then(snapshots => cleanData(snapshots))
+        .then(tasks => tasks.map(task => createTask(task)))
+      };
+  
+      fetchTasks();
+    </script>
 </body>
 
 <script>
@@ -52,6 +108,11 @@
         var box = document.getElementById("messageBox");
         box.style.visibility="hidden";
     }
+    window.addEventListener('keydown', function(e) {
+    if(e.keyCode == 32 && e.target == document.body) {
+    e.preventDefault();
+  }
+});
 };
 </script>
 
