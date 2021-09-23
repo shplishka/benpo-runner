@@ -76,6 +76,7 @@
 
       // dom functions
       function createTask(task) {
+        if(task.name.replace(/\s/g, '').length){
         const elem = document.createElement('div');
         elem.setAttribute('id', task.id);
         elem.setAttribute('class', 'flex-container card card-body p-2 row m-0 flex-row');
@@ -88,6 +89,7 @@
         deleteBtn.innerText = task.status;
         elem.append(deleteBtn);
         tasksDOM.append(elem);
+      }
       }
   
       // firebase functions
